@@ -1,10 +1,7 @@
 [build]
-  # This tells Netlify where the compiled web files are.
+  # We are deploying the pre-built web files directly.
   publish = "build/web"
-  
-  # For Netlify to build Flutter automatically, you normally need a custom 
-  # build script. If you build locally, you can leave this empty.
-  command = "flutter build web --release"
+  command = "" # [PRE-BUILT] No build command needed on Netlify
 
 [[redirects]]
   # This ensures that Flutter's internal routing works correctly

@@ -5,6 +5,7 @@ import '../../services/youtube_service.dart';
 import 'dart:ui';
 import '../auth/login_page.dart';
 import '../../widgets/login_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -239,7 +240,145 @@ class _HomePageState extends State<HomePage> {
               ),
 
               const SizedBox(height: 120),
+
+              /////////////////////////////////////////////////////////////
+              /// FOOTER SECTION
+              /////////////////////////////////////////////////////////////
+              const FooterSection(),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FooterSection extends StatelessWidget {
+  const FooterSection({super.key});
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: Colors.black.withOpacity(0.3),
+      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 120),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Logo/Brand Section
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset('assets/images/ytt.png', height: 60),
+                  const SizedBox(height: 15),
+                  const Text(
+                    "Empowering developers worldwide.",
+                    style: TextStyle(color: Colors.white54, fontSize: 14),
+                  ),
+                ],
+              ),
+              
+              // Social Links Section
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Connect with us",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      _SocialIcon(
+                        icon: Icons.video_library, // Placeholder for YouTube
+                        color: Colors.red,
+                        onTap: () => _launchURL("https://www.youtube.com/@your_technical_tutorial"),
+                        tooltip: "YouTube",
+                      ),
+                      const SizedBox(width: 20),
+                      _SocialIcon(
+                        icon: Icons.facebook,
+                        color: Colors.blueAccent,
+                        onTap: () => _launchURL("https://www.facebook.com/share/1Hcwe5S2fe/"),
+                        tooltip: "Facebook",
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 60),
+          const Divider(color: Colors.white12),
+          const SizedBox(height: 20),
+          const Text(
+            "© 2024 Your Technical Tutorial. All rights reserved.",
+            style: TextStyle(color: Colors.white24, fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SocialIcon extends StatefulWidget {
+  final IconData icon;
+  final Color color;
+  final VoidCallback onTap;
+  final String tooltip;
+
+  const _SocialIcon({
+    required this.icon,
+    required this.color,
+    required this.onTap,
+    required this.tooltip,
+  });
+
+  @override
+  State<_SocialIcon> createState() => _SocialIconState();
+}
+
+class _SocialIconState extends State<_SocialIcon> {
+  bool isHovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: widget.tooltip,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => isHovering = true),
+        onExit: (_) => setState(() => isHovering = false),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: isHovering ? widget.color.withOpacity(0.2) : Colors.white10,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isHovering ? widget.color : Colors.transparent,
+                width: 2,
+              ),
+            ),
+            child: Icon(
+              widget.icon,
+              color: isHovering ? widget.color : Colors.white70,
+              size: 28,
+            ),
           ),
         ),
       ),

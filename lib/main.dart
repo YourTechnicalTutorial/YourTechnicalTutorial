@@ -28,7 +28,7 @@ class YTTApp extends StatelessWidget {
 
   void _checkBackend() async {
     try {
-      final response = await http.get(Uri.parse("http://127.0.0.1:3000"));
+      final response = await http.get(Uri.parse("https://yourtechnicaltutorial.onrender.com"));
       print("✅ [BACKEND TEST] Connection Successful! Status: ${response.statusCode}");
     } catch (e) {
       print("❌ [BACKEND TEST] Connection Failed! Error: $e");

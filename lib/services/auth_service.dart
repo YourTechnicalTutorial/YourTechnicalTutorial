@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  static const String _baseUrl = "http://127.0.0.1:3000";
+  // Use 10.0.2.2 for Android Emulator, or your computer's IP for real devices.
+  // When you deploy your backend, replace this with your real URL (e.g., https://your-app.render.com)
+  static const String _baseUrl = "https://yourtechnicaltutorial.onrender.com"; 
 
   static Future<Map<String, dynamic>> login(String email, String password) async {
     try {
